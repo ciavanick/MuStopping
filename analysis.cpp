@@ -38,7 +38,7 @@ void analysis(Int_t count = 0, TString rootFilePath = "build/output0.root")
     // TH1F *hT1PosStopping = new TH1F("hT1PosStopping", "Stopping distribution", 10000, 0.013, +0.0155);
     TH1F *hT1PosY = new TH1F("hT1PosY", "Stopping distribution", 20000, -500., +500.);
     TH1F *hT1PosZ = new TH1F("hT1PosZ", "Stopping distribution", 20000, -500., +500.);
-    TH2F *hT1PosXZ = new TH2F("hT1PosXZ", "Stopping distribution", 20000, -500., +500., 20000, -500., +500.);
+    TH2F *hT1PosXZ = new TH2F("hT1PosXZ", "Stopping distribution", 20000, -30., +30., 20000, 2.40, 2.50);
     TH2F *hT1PosXY = new TH2F("hT1PosXY", "Stopping distribution", 20000, -500., +500., 20000, -500., +500.);
     for (Int_t i = 0; i != nEntries; ++i)
     {
@@ -133,7 +133,7 @@ void analysis(Int_t count = 0, TString rootFilePath = "build/output0.root")
     hT1PosY->Write();
     hT1PosZ->Write();
     tree->Write();
-    // hT1PosXZ->Write();
+    hT1PosXZ->Write();
     // hT1PosXY->Write();
     PercentageOfStoppingMuons.Write("PercentageOfStoppingMuons");
     fileToWrite->Close();
