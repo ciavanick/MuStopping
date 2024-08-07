@@ -188,7 +188,7 @@ void MyPrimaryGenerator::GeneratePrimaries(G4Event *anEvent) // here we want to 
     }
     fParticleGun->SetParticlePosition(G4ThreeVector(x, y, z));
     G4double particle_mass = fParticleGun->GetParticleDefinition()->GetPDGMass();
-    G4cout<< "Particle mass : "<< particle_mass << "\n";
+    //G4cout<< "Particle mass : "<< particle_mass << "\n";
     G4double particleEnergy = std::sqrt(p * p + particle_mass * particle_mass) - particle_mass;
     fParticleGun->SetParticleEnergy(particleEnergy);
     fParticleGun->SetParticleMomentumDirection(G4ThreeVector(px, py, pz));
