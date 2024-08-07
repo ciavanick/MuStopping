@@ -8,6 +8,11 @@ void analysis(Int_t count = 0, TString rootFilePath = "build/output0.root")
     t1 = (TTree *)file->Get("t1");
     // defining all the branches variables
     Double_t fPosX, fPosY, fPosZ;
+    Double_t fX, fY, fZ;
+    TTree *tree = new TTree("t","X Y Z distributions");
+    tree->Branch("fX",&fX,"fX/F");
+    tree->Branch("fY",&fY,"fY/F");
+    tree->Branch("fZ",&fZ,"fZ/F");
     Int_t StopInLiqHe, StopInCopperChamber, StopInCollimator, StopInTitaniumFoil, StopInMylarFoils, StopInPlasticScintillator;
     Int_t nOfStopInLiqHe = 0;
     Int_t nOfStopInCopperChamber = 0;
@@ -43,6 +48,10 @@ void analysis(Int_t count = 0, TString rootFilePath = "build/output0.root")
         if (StopInLiqHe == 1)
         {
             ++nOfStopInLiqHe;
+            fX = fPosX;
+            fY = fPosY;
+            fZ = fPosZ;
+            tree->Fill();
             hT1PosX->Fill(fPosX);
             hT1PosY->Fill(fPosY);
             hT1PosZ->Fill(fPosZ);
