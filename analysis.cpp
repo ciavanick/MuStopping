@@ -9,10 +9,9 @@ void analysis(Int_t count = 0, TString rootFilePath = "build/output0.root")
     // defining all the branches variables
     Double_t fPosX, fPosY, fPosZ;
     Double_t fX, fY, fZ;
-    TTree *tree = new TTree("t","X Y Z distributions");
-    tree->Branch("fX",&fX,"fX/F");
-    tree->Branch("fY",&fY,"fY/F");
-    tree->Branch("fZ",&fZ,"fZ/F");
+    std::vector<Double_t> posX;
+    std::vector<Double_t> posY;
+    std::vector<Double_t> posZ;
     Int_t StopInLiqHe, StopInCopperChamber, StopInCollimator, StopInTitaniumFoil, StopInMylarFoils, StopInPlasticScintillator;
     Int_t nOfStopInLiqHe = 0;
     Int_t nOfStopInCopperChamber = 0;
@@ -48,10 +47,9 @@ void analysis(Int_t count = 0, TString rootFilePath = "build/output0.root")
         if (StopInLiqHe == 1)
         {
             ++nOfStopInLiqHe;
-            fX = fPosX;
-            fY = fPosY;
-            fZ = fPosZ;
-            tree->Fill();
+            posX.push_back(fPosX);
+            posY.push_back(fPosY);
+            posZ.push_back(fPosZ);
             hT1PosX->Fill(fPosX);
             hT1PosY->Fill(fPosY);
             hT1PosZ->Fill(fPosZ);
@@ -121,9 +119,20 @@ void analysis(Int_t count = 0, TString rootFilePath = "build/output0.root")
     c1->SaveAs(savename1D);
     c2->SaveAs(savename2D);
     TFile *fileToWrite = new TFile(savename, "recreate");
+    TTree *tree = new TTree("tree","posisions");
+    tree->Branch("fX",&fX,"fX/D");
+    tree->Branch("fY",&fY,"fY/D");
+    tree->Branch("fZ",&fZ,"fZ/D");
+    for(int i = 0; i != posX.size(); ++i){
+        fX = posX[i];
+        fY = posY[i];
+        fZ = posZ[i];
+        tree->Fill();
+    }
     hT1PosX->Write();
     hT1PosY->Write();
     hT1PosZ->Write();
+    tree->Write();
     // hT1PosXZ->Write();
     // hT1PosXY->Write();
     PercentageOfStoppingMuons.Write("PercentageOfStoppingMuons");
